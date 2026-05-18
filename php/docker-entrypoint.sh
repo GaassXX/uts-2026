@@ -212,6 +212,10 @@ chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 echo "🗃️ Running migrations..."
 php artisan migrate --force
 
+# Step 7.5: Run database seeders
+echo "🌱 Seeding database..."
+php artisan db:seed --force || true
+
 # Step 8: Run custom project init command
 echo "🚀 Running project:init..."
 php artisan project:init || true
