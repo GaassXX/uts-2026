@@ -111,11 +111,11 @@
 
     {{-- TECH STACK SECTION --}}
     @if($profile?->skills)
-    <section class="border-t border-gray-800 py-10 px-6 max-w-7xl mx-auto">
+    <section class="py-16 px-6 max-w-7xl mx-auto">
         <div class="flex items-center justify-center gap-3 mb-8 text-gray-400">
-            <div class="h-px bg-gray-800 flex-1"></div>
-            <span class="text-sm">⚡ Tech Stack</span>
-            <div class="h-px bg-gray-800 flex-1"></div>
+            <div class="h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent flex-1"></div>
+            <span class="text-sm font-semibold whitespace-nowrap">⚡ Tech Stack</span>
+            <div class="h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent flex-1"></div>
         </div>
         <div class="flex flex-wrap justify-center gap-4">
             @foreach($profile->skills as $skill)
