@@ -18,4 +18,4 @@ Livewire::setScriptRoute(function ($handle) {
 Route::get('/', HomePage::class)->name('home');
 Route::get('/contact', ContactPage::class)->name('contact');
 Route::get('/projects', ProjectPage::class)->name('projects');
-Route::get('/projects/{project}', ProjectDetail::class)->name('projects.detail');
+Route::get('/projects/{project:slug}', ProjectDetail::class)->name('projects.detail');

@@ -20,7 +20,7 @@
             </div>
 
             <p class="text-gray-400 leading-relaxed max-w-lg text-lg">
-                {{ $profile?->bio ?? 'Bio singkat lo di sini.' }}
+                {{ $profile?->bio ?? 'Bio singkat' }}
             </p>
 
             {{-- CTA BUTTONS --}}

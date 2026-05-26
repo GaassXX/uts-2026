@@ -41,7 +41,7 @@
 
             <div>
                 <label class="block text-sm text-gray-400 mb-1">Pesan <span class="text-red-400">*</span></label>
-                <textarea wire:model="message" rows="5" placeholder="Tulis pesan lo di sini..."
+                <textarea wire:model="message" rows="5" placeholder="Tulis pesan anda di sini..."
                           class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:border-indigo-500 outline-none transition resize-none"></textarea>
                 @error('message')
                     <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span>
