@@ -15,6 +15,22 @@ Ini adalah project **Portfolio** yang dikembangkan sebagai tugas UTS untuk Mata 
 
 ---
 
+## 📸 Screenshots
+
+### 🏠 Homepage
+![Homepage](Docs/homepage.png)
+
+### 📁 Projects Page
+![Projects](Docs/projects.png)
+
+### 🔍 Project Detail
+![Project Detail](Docs/project-detail.png)
+
+### 📬 Contact Page
+![Contact](Docs/contact.png)
+
+---
+
 ## 🎯 Fitur Utama
 
 ### 1. **Homepage** (`/`)
