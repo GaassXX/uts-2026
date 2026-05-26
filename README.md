@@ -16,8 +16,8 @@ Ini adalah project **Portfolio** yang dikembangkan sebagai tugas UTS untuk Mata 
 |--------|-----------|
 | **Nama** | Rizqi Bagas Wicaksono |
 | **NIM** | 20240801187 |
-| **URL Project** | https://uts.test |
-| **Admin Panel** | https://uts.test/admin |
+| **URL Project** | http://localhost (or https://uts.test if configured) |
+| **Admin Panel** | http://localhost/admin (or https://uts.test/admin if configured) |
 
 ---
 
@@ -103,6 +103,34 @@ Ini adalah project **Portfolio** yang dikembangkan sebagai tugas UTS untuk Mata 
 
 ---
 
+## ⚡ Quick Start (TL;DR)
+
+```bash
+# Clone & enter directory
+git clone https://github.com/GaassXX/uts-2026.git
+cd uts-2026
+
+# Setup environment
+cd src && cp .env.example .env && cd ..
+
+# Start Docker & install
+docker-compose up -d
+docker-compose exec php composer install
+docker-compose exec php npm install
+
+# Database setup
+docker-compose exec php php artisan key:generate
+docker-compose exec php php artisan migrate
+docker-compose exec php npm run build
+
+# Access application
+# Homepage: http://localhost or https://uts.test
+# Admin: http://localhost/admin or https://uts.test/admin
+# Email: admin@uts.test | Password: password (default)
+```
+
+---
+
 ## 📦 Instalasi & Setup
 
 ### Prerequisites
@@ -156,10 +184,11 @@ docker-compose exec php npm run build
 ```
 
 #### 9. **Access Application**
-- **Homepage**: https://uts.test
-- **Admin Panel**: https://uts.test/admin
-- **Projects**: https://uts.test/projects
-- **Contact**: https://uts.test/contact
+- **Homepage**: http://localhost (or https://uts.test if configured)
+- **Admin Panel**: http://localhost/admin (or https://uts.test/admin if configured)
+- **Projects**: http://localhost/projects
+- **Contact**: http://localhost/contact
+- **Default Admin** - Email: `admin@uts.test`, Password: `password`
 
 ---
 
@@ -409,16 +438,48 @@ docker-compose exec php php artisan tinker
 
 ---
 
+## � Lisensi
+
+Project ini dilisensikan di bawah **MIT License**. Lihat file [LICENSE](LICENSE) untuk detail lengkap.
+
+### Apa yang Boleh & Tidak Boleh?
+
+| ✅ Boleh | ❌ Tidak Boleh |
+|---------|--------------|
+| Gunakan untuk proyek komersial | Hapus/ubah license notice |
+| Modifikasi source code | Claim ownership (klaim sebagai milik sendiri) |
+| Menggunakan untuk proyek pribadi | Pertanggungjawaban (tidak bisa disalahkan) |
+| Mendistribusi ulang | Menjamin (tanpa jaminan) |
+| Menggunakan sebagai private | Liability (tidak bertanggung jawab) |
+
+**Requirement**: Cantumkan license notice di project Anda jika mendistribusi ulang.
+
+---
+
+## 📚 Dokumentasi Lengkap
+
+Untuk dokumentasi lebih detail, lihat file-file berikut:
+
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Panduan cara berkontribusi ke project
+- **[SECURITY.md](SECURITY.md)** - Kebijakan keamanan & best practices
+- **[CHANGELOG.md](CHANGELOG.md)** - Riwayat perubahan & versioning project
+- **[API.md](API.md)** - Dokumentasi API & features (public & admin)
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Arsitektur project & technical decisions
+- **[DATABASE.md](DATABASE.md)** - Schema database & relationship documentation
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Panduan deployment ke production
+
+---
+
 ## 📞 Kontak & Support
 
 Untuk pertanyaan atau bantuan:
 - **Email**: rizqibagaswicaksonoo@gmail.com
 - **GitHub**: https://github.com/GaassXX
-
+- **Issue**: Buat [GitHub Issue](https://github.com/GaassXX/uts-2026/issues) untuk bug reports
 
 ---
 
-## 🤝 Cara Berkontribusi
+## 🤝 Kontribusi
 
 Kontribusi sangat diterima! Berikut adalah langkah-langkah untuk berkontribusi ke project ini:
 
