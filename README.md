@@ -1,5 +1,11 @@
 # 📚 Portfolio Project UTS
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=flat&logo=laravel)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat&logo=php)](https://www.php.net)
+[![Status](https://img.shields.io/badge/Status-Active-brightgreen)](https://github.com/GaassXX/uts-2026)
+[![GitHub](https://img.shields.io/badge/GitHub-GaassXX%2Futs--2026-black?logo=github)](https://github.com/GaassXX/uts-2026)
+
 Ini adalah project **Portfolio** yang dikembangkan sebagai tugas UTS untuk Mata Kuliah Pemrograman Web dengan menggunakan **Laravel Filament** sebagai admin panel.
 
 ---
