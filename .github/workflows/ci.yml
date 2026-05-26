@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup PHP ${{ matrix.php-version }}
-        uses: shivammathur/setup-php@v3
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, pdo, pdo_mysql, bcmath, json
@@ -83,7 +83,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup PHP ${{ matrix.php-version }}
-        uses: shivammathur/setup-php@v3
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, json
@@ -104,7 +104,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v3
+        uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
           extensions: mbstring, json
