@@ -1,0 +1,122 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ["8.2"]
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: uts_test
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+        ports:
+          - 3306:3306
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, pdo, pdo_mysql, fileinfo
+          coverage: pcov
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install PHP dependencies
+        working-directory: ./src
+        run: composer install --prefer-dist --no-progress
+      - name: Setup Laravel environment
+        working-directory: ./src
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+      - name: Run migrations
+        working-directory: ./src
+        env:
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: uts_test
+          DB_USERNAME: root
+          DB_PASSWORD: root
+        run: php artisan migrate --force
+      - name: Run tests
+        working-directory: ./src
+        env:
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: uts_test
+          DB_USERNAME: root
+          DB_PASSWORD: root
+        run: php artisan test
+
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ["8.2"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, pdo, fileinfo
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install PHP dependencies
+        working-directory: ./src
+        run: composer install --prefer-dist --no-progress
+      - name: Run Pint
+        working-directory: ./src
+        run: composer pint --test || true
+      - name: Run PHPStan
+        working-directory: ./src
+        run: composer phpstan || true
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    if: success()
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install Node dependencies
+        working-directory: ./src
+        run: npm install
+      - name: Build frontend assets
+        working-directory: ./src
+        run: npm run build
+      - name: Check build artifacts
+        run: |
+          if [ ! -d "src/public/build" ]; then
+            echo "Build artifacts not found!"
+            exit 1
+          fi
