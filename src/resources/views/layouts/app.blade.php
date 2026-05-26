@@ -35,9 +35,9 @@
     </main>
 
     <footer class="text-center py-6 text-gray-500 text-sm border-t border-gray-800 mt-10">
-        &copy; {{ date('Y') }} Portfolio. All rights reserved.
+        &copy; {{ date('Y') }} Portofolio. All rights reserved.
     </footer>
 
     @livewireScripts
 </body>
-</html>
+</html> 
