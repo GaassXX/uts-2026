@@ -507,9 +507,150 @@ Test: Menambah atau mengubah tests
 
 ---
 
+## � Quick Start (TL;DR)
+
+```bash
+# Clone & setup
+git clone https://github.com/GaassXX/uts-2026.git
+cd uts-2026
+cd src && cp .env.example .env && cd ..
+
+# Start application
+docker-compose up -d
+
+# Install & migrate
+docker-compose exec php composer install
+docker-compose exec php npm install
+docker-compose exec php php artisan key:generate
+docker-compose exec php php artisan migrate
+docker-compose exec php npm run build
+
+# Access
+# 🏠 Homepage: https://uts.test
+# 🔐 Admin: https://uts.test/admin
+```
+
+---
+
+## 📚 Dokumentasi Lengkap
+
+- **[SECURITY.md](SECURITY.md)** - Kebijakan keamanan & best practices
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Panduan berkontribusi lengkap
+- **[CHANGELOG.md](CHANGELOG.md)** - Riwayat perubahan & versioning
+
+---
+
+## ❓ FAQ
+
+### Q: Bagaimana cara login ke admin panel?
+**A:** Admin panel dapat diakses di `https://uts.test/admin`. Gunakan kredensial yang telah dibuat saat setup. Jika belum ada user admin, buat melalui:
+```bash
+docker-compose exec php php artisan tinker
+>>> User::create(['name' => 'Admin', 'email' => 'admin@uts.test', 'password' => Hash::make('password')])
+```
+
+### Q: Bagaimana cara menambah project baru?
+**A:** Login ke admin panel → Projects → Create/+ button → Isi form lengkap → Save
+
+### Q: Bagaimana cara meng-upload foto?
+**A:** 
+- Profile photo: Admin → Profile → Upload foto profil
+- Project thumbnail: Projects → Create/Edit → Upload thumbnail
+- Project gallery: Projects → Create/Edit → Upload multiple images
+
+### Q: CSS/JS tidak di-load?
+**A:** Clear cache dan rebuild assets:
+```bash
+docker-compose exec php php artisan cache:clear
+docker-compose exec php npm run build
+```
+
+### Q: Database error saat migrate?
+**A:** Pastikan DB container running dan credentials benar di `.env`
+```bash
+docker-compose ps  # Cek container status
+docker-compose exec php php artisan migrate:refresh  # Reset migrations
+```
+
+### Q: Bagaimana mengubah nama aplikasi?
+**A:** Edit `APP_NAME` di `src/.env` dan `.env.example`
+
+### Q: Apakah saya bisa deploy ke production?
+**A:** Ya! Lihat [SECURITY.md](SECURITY.md) untuk checklist keamanan production
+
+### Q: Bagaimana kontribusi?
+**A:** Baca [CONTRIBUTING.md](CONTRIBUTING.md) untuk panduan lengkap
+
+---
+
+## 🆘 Troubleshooting
+
+### "Connection refused" ke database
+```bash
+# Restart Docker containers
+docker-compose restart db php
+
+# Check logs
+docker-compose logs db
+```
+
+### "Class not found" error
+```bash
+docker-compose exec php composer dump-autoload
+```
+
+### Port sudah terpakai
+```bash
+# Change port di docker-compose.yml
+# ports: "8080:80"  # Change 8080 to different port
+docker-compose up -d
+```
+
+### Disk space penuh
+```bash
+# Clean Docker images/containers
+docker system prune -a
+
+# Remove old logs
+docker-compose exec php php artisan cache:clear
+docker-compose exec php php artisan route:clear
+```
+
+---
+
 ## 📄 Lisensi
 
-Project ini dibuat untuk keperluan akademik (Tugas UTS) dan dilisensikan di bawah MIT License.
+Project ini dibuat untuk keperluan akademik (Tugas UTS) dan dilisensikan di bawah **MIT License**.
+
+Lihat file [LICENSE](LICENSE) untuk detail lengkap.
+
+### MIT License - Apa yang boleh dan tidak boleh?
+
+| ✅ Boleh | ❌ Tidak Boleh |
+|---------|--------------|
+| Gunakan untuk komersial | Remove/ubah license notice |
+| Modifikasi code | Hold liable (tidak bisa disalahkan) |
+| Distribusi ulang | Private claim (klaim sebagai punya sendiri) |
+| Gunakan private | Warranty (tanpa jaminan) |
+
+**Requirement:** Cantumkan license notice di copy project Anda.
+
+---
+
+## 📞 Support & Kontak
+
+- **Issue/Bug**: Buat di [GitHub Issues](https://github.com/GaassXX/uts-2026/issues)
+- **Security**: Email ke [rizqibagas@example.com](mailto:rizqibagas@example.com)
+- **Discussion**: GitHub Discussions atau direct email
+
+---
+
+## 👏 Credits & Acknowledgments
+
+- **Laravel Community** - Framework & ecosystem
+- **Filament** - Admin panel framework
+- **Tailwind CSS** - Utility-first CSS
+- **Open Source Community** - Dependencies & packages
 
 ---
 
