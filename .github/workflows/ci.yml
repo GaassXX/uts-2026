@@ -29,10 +29,10 @@ jobs:
         php-version: [8.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP ${{ matrix.php-version }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v3
         with:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, pdo, pdo_mysql, bcmath, json
@@ -80,10 +80,10 @@ jobs:
         php-version: [8.2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP ${{ matrix.php-version }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v3
         with:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, json
@@ -101,10 +101,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v3
         with:
           php-version: 8.2
           extensions: mbstring, json
@@ -124,7 +124,7 @@ jobs:
     if: success()
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Build status
         run: echo "✅ All checks passed! Ready for deployment."
