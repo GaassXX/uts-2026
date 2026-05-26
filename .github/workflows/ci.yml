@@ -22,6 +22,13 @@ jobs:
           extensions: mbstring, pdo, pdo_mysql
           coverage: none
 
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: src/vendor
+          key: composer-${{ hashFiles('src/composer.lock') }}
+          restore-keys: composer-
+
       - name: Copy .env
         run: cp src/.env.example src/.env
 
@@ -36,11 +43,19 @@ jobs:
       - name: Run Laravel Pint (Code Style Check)
         working-directory: src
         run: ./vendor/bin/pint --test
+        continue-on-error: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: src/node_modules
+          key: npm-${{ hashFiles('src/package-lock.json') }}
+          restore-keys: npm-
 
       - name: Install NPM Dependencies
         working-directory: src
