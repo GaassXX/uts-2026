@@ -3,6 +3,7 @@
 
         {{-- Back Button --}}
         <a href="{{ route('projects') }}"
+           wire:navigate
            class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 mb-8 transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -301,6 +302,45 @@
                         Live Demo
                     </a>
                 @endif
+            </div>
+        @endif
+
+        {{-- SECTION 11: Related Projects (NEW) --}}
+        @if ($relatedProjects->isNotEmpty())
+            <div class="mt-12 pt-8 border-t border-gray-800">
+                <h2 class="text-xl font-bold text-white mb-6">Project Terkait</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    @foreach ($relatedProjects as $related)
+                        <a href="{{ route('projects.detail', $related) }}"
+                           wire:navigate
+                           class="bg-gray-900 border border-gray-800 hover:border-indigo-500 rounded-xl p-4 transition group">
+                            <div class="flex items-center gap-3 mb-2">
+                                @if ($related->thumbnail)
+                                    <img src="{{ Storage::url($related->thumbnail) }}"
+                                         class="w-10 h-10 rounded-lg object-cover"
+                                         alt="{{ $related->title }}">
+                                @else
+                                    <div class="w-10 h-10 bg-indigo-900/50 rounded-lg flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
+                                    </div>
+                                @endif
+                                <span class="text-xs px-2 py-0.5 rounded-full
+                                    {{ $related->status === 'completed' ? 'bg-green-500/20 text-green-300' : ($related->status === 'planning' ? 'bg-gray-500/20 text-gray-300' : 'bg-blue-500/20 text-blue-300') }}">
+                                    {{ ucfirst(str_replace('_', ' ', $related->status)) }}
+                                </span>
+                            </div>
+                            <h3 class="text-sm font-semibold text-white group-hover:text-indigo-300 transition line-clamp-2">
+                                {{ $related->title }}
+                            </h3>
+                            <div class="mt-2 h-1 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-500 rounded-full"
+                                     style="width: {{ $related->progress }}%"></div>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
             </div>
         @endif
 

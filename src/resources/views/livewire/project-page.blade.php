@@ -13,6 +13,46 @@
             <p class="text-gray-400 text-lg">Kumpulan project yang sedang saya kerjakan</p>
         </div>
 
+        {{-- Search & Filter --}}
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+            {{-- Search Input --}}
+            <div class="relative flex-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input wire:model.live.debounce.300ms="search"
+                       type="text"
+                       placeholder="Cari project..."
+                       class="w-full bg-gray-900 border border-gray-700 rounded-xl pl-11 pr-4 py-3 text-sm focus:border-indigo-500 outline-none transition">
+            </div>
+
+            {{-- Filter Status --}}
+            <div class="flex gap-2" x-data="{ active: @entangle('filterStatus') }">
+                @foreach(['' => 'Semua', 'planning' => 'Planning', 'in_progress' => 'In Progress', 'completed' => 'Completed'] as $val => $label)
+                    <button wire:click="$set('filterStatus', '{{ $val }}')"
+                            @click="active = '{{ $val }}'"
+                            :class="active === '{{ $val }}'
+                                ? 'bg-indigo-600 border-indigo-600 text-white'
+                                : 'bg-gray-900 border-gray-700 text-gray-400 hover:border-indigo-500'"
+                            class="px-4 py-2 rounded-xl text-sm font-medium border transition">
+                        {{ $label }}
+                    </button>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- Loading overlay --}}
+        <div wire:loading.flex wire:target="search,filterStatus"
+             class="fixed inset-0 bg-black/30 z-50 items-center justify-center backdrop-blur-sm">
+            <div class="bg-gray-900 border border-gray-700 rounded-2xl px-6 py-4 flex items-center gap-3">
+                <svg class="animate-spin h-5 w-5 text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                </svg>
+                <span class="text-gray-300 text-sm">Memuat...</span>
+            </div>
+        </div>
+
         {{-- Projects Grid --}}
         <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse ($projects as $project)
@@ -38,14 +78,12 @@
                                 @endif
                             </div>
 
-                            {{-- More Options Menu --}}
-                            <button class="text-gray-600 hover:text-indigo-400 transition-colors duration-200 hover:bg-indigo-950/50 p-2 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="5" r="2"/>
-                                    <circle cx="12" cy="12" r="2"/>
-                                    <circle cx="12" cy="19" r="2"/>
-                                </svg>
-                            </button>
+                            {{-- Final Project Badge --}}
+                            @if ($project->is_final_project)
+                                <span class="text-xs bg-purple-600/20 text-purple-300 border border-purple-500/30 px-2 py-1 rounded-full font-semibold">
+                                    🎓 Final
+                                </span>
+                            @endif
                         </div>
 
                         {{-- Status Badge --}}
@@ -53,7 +91,7 @@
                             <span class="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm transition-all duration-300
                                 {{ $project->status === 'completed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' : ($project->status === 'planning' ? 'bg-gray-500/20 text-gray-300 border border-gray-500/30' : 'bg-blue-500/20 text-blue-300 border border-blue-500/30') }}">
                                 <span class="w-2 h-2 rounded-full inline-block
-                                    {{ $project->status === 'completed' ? 'bg-green-400 animate-pulse' : ($project->status === 'planning' ? 'bg-gray-400' : 'bg-blue-400 animate-pulse-slow') }}"></span>
+                                    {{ $project->status === 'completed' ? 'bg-green-400 animate-pulse' : ($project->status === 'planning' ? 'bg-gray-400' : 'bg-blue-400 animate-pulse') }}"></span>
                                 {{ ucfirst(str_replace('_', ' ', $project->status)) }}
                             </span>
                         </div>
@@ -63,14 +101,14 @@
 
                         {{-- Short Description --}}
                         <p class="text-gray-400 text-sm mb-4 line-clamp-2 group-hover:text-gray-300 transition-colors duration-300">
-                            {{ $project->short_description ?? 'Innovative project showcasing modern web technologies' }}
+                            {{ $project->short_description ?? Str::limit($project->description, 100, '...') }}
                         </p>
 
                         {{-- Tech Stack with Icons --}}
                         @if ($project->tech_stack)
                             <div class="flex flex-wrap gap-2 mb-4">
                                 @foreach (array_slice((array) $project->tech_stack, 0, 3) as $tech)
-                                    <span class="bg-gradient-to-r from-indigo-900/40 to-purple-900/40 text-indigo-300 px-2.5 py-1 rounded-full text-xs font-medium border border-indigo-700/30 hover:border-indigo-500/50 transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/10">
+                                    <span class="bg-gradient-to-r from-indigo-900/40 to-purple-900/40 text-indigo-300 px-2.5 py-1 rounded-full text-xs font-medium border border-indigo-700/30 hover:border-indigo-500/50 transition-all duration-200">
                                         {{ $tech }}
                                     </span>
                                 @endforeach
@@ -80,7 +118,7 @@
                             </div>
                         @endif
 
-                        {{-- Progress Bar with Animation --}}
+                        {{-- Progress Bar --}}
                         <div class="mb-4 flex-1">
                             <div class="flex justify-between text-xs text-gray-400 mb-2 font-medium">
                                 <span class="group-hover:text-gray-300 transition-colors duration-300">Progress</span>
@@ -93,17 +131,18 @@
                         </div>
 
                         {{-- Updated Info --}}
-                        <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-4 pb-4 border-b border-gray-800/50 group-hover:border-gray-700 transition-colors duration-300">
+                        <div class="flex items-center gap-1.5 text-gray-500 text-xs mb-4 pb-4 border-b border-gray-800/50">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
-                            <span class="group-hover:text-gray-300 transition-colors duration-300">Updated {{ $project->updated_at->diffForHumans() }}</span>
+                            <span>Updated {{ $project->updated_at->diffForHumans() }}</span>
                         </div>
 
                         {{-- View Detail Button --}}
                         <a href="{{ route('projects.detail', $project) }}"
-                           class="inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-indigo-300 hover:text-white bg-gradient-to-r from-indigo-950/60 to-purple-950/60 hover:from-indigo-700 hover:to-purple-700 border border-indigo-700/50 hover:border-indigo-500 px-4 py-2.5 rounded-lg transition-all duration-300 ease-smooth w-full group/btn hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95">
-                            <span class="group-hover/btn:text-indigo-100">View Detail</span>
+                           wire:navigate
+                           class="inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-indigo-300 hover:text-white bg-gradient-to-r from-indigo-950/60 to-purple-950/60 hover:from-indigo-700 hover:to-purple-700 border border-indigo-700/50 hover:border-indigo-500 px-4 py-2.5 rounded-lg transition-all duration-300 w-full group/btn hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95">
+                            <span>View Detail</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
@@ -112,15 +151,25 @@
                 </div>
             @empty
                 <div class="col-span-full text-center py-20">
-                    <div class="text-center space-y-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto text-gray-700 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
-                        </svg>
-                        <p class="text-gray-400 text-lg font-medium">Belum ada project</p>
-                        <p class="text-gray-500 text-sm">Mulai buat project Anda sekarang!</p>
-                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto text-gray-700 opacity-50 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                    </svg>
+                    <p class="text-gray-400 text-lg font-medium">
+                        {{ $search ? 'Project tidak ditemukan' : 'Belum ada project' }}
+                    </p>
+                    <p class="text-gray-500 text-sm mt-1">
+                        {{ $search ? 'Coba kata kunci lain' : 'Mulai buat project Anda sekarang!' }}
+                    </p>
                 </div>
             @endforelse
         </div>
+
+        {{-- Pagination --}}
+        @if ($projects->hasPages())
+            <div class="mt-10">
+                {{ $projects->links() }}
+            </div>
+        @endif
+
     </div>
 </div>

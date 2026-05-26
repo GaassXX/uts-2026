@@ -27,6 +27,7 @@
             <div class="flex gap-4 flex-wrap"
                  x-data="{ hoveredBtn: null }">
                 <a href="{{ route('projects') }}"
+                   wire:navigate
                    @mouseenter="hoveredBtn = 'projects'"
                    @mouseleave="hoveredBtn = null"
                    :class="hoveredBtn === 'projects' ? 'scale-105 shadow-lg shadow-indigo-500/30' : ''"
@@ -34,6 +35,7 @@
                     Lihat Project Saya →
                 </a>
                 <a href="{{ route('contact') }}"
+                   wire:navigate
                    @mouseenter="hoveredBtn = 'contact'"
                    @mouseleave="hoveredBtn = null"
                    :class="hoveredBtn === 'contact' ? 'scale-105 border-indigo-500' : ''"
@@ -66,6 +68,7 @@
                 @endif
 
                 <a href="{{ route('contact') }}"
+                   wire:navigate
                    class="w-11 h-11 flex items-center justify-center border border-gray-700 rounded-lg hover:border-indigo-500 hover:text-indigo-400 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
