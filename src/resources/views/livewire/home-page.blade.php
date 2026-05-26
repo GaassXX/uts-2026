@@ -23,14 +23,21 @@
                 {{ $profile?->bio ?? 'Bio singkat' }}
             </p>
 
-            {{-- CTA BUTTONS --}}
-            <div class="flex gap-4 flex-wrap">
+            {{-- CTA BUTTONS with Alpine.js --}}
+            <div class="flex gap-4 flex-wrap"
+                 x-data="{ hoveredBtn: null }">
                 <a href="{{ route('projects') }}"
-                   class="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold transition">
+                   @mouseenter="hoveredBtn = 'projects'"
+                   @mouseleave="hoveredBtn = null"
+                   :class="hoveredBtn === 'projects' ? 'scale-105 shadow-lg shadow-indigo-500/30' : ''"
+                   class="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold transition-all duration-200">
                     Lihat Project Saya →
                 </a>
                 <a href="{{ route('contact') }}"
-                   class="flex items-center gap-2 px-6 py-3 border border-gray-600 hover:border-indigo-500 rounded-lg font-semibold transition">
+                   @mouseenter="hoveredBtn = 'contact'"
+                   @mouseleave="hoveredBtn = null"
+                   :class="hoveredBtn === 'contact' ? 'scale-105 border-indigo-500' : ''"
+                   class="flex items-center gap-2 px-6 py-3 border border-gray-600 hover:border-indigo-500 rounded-lg font-semibold transition-all duration-200">
                     Hubungi Saya
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -117,54 +124,101 @@
             <span class="text-sm font-semibold whitespace-nowrap">⚡ Tech Stack</span>
             <div class="h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent flex-1"></div>
         </div>
-        <div class="flex flex-wrap justify-center gap-4">
-            @foreach($profile->skills as $skill)
-                @php
-                    $key = strtolower(str_replace([' ', '.', '#'], '', $skill));
-                    $iconMap = [
-                        'php'        => 'devicon-php-plain colored',
-                        'laravel'    => 'devicon-laravel-plain colored',
-                        'livewire'   => 'devicon-livewire-original colored',
-                        'html'       => 'devicon-html5-plain colored',
-                        'css'        => 'devicon-css3-plain colored',
-                        'javascript' => 'devicon-javascript-plain colored',
-                        'js'         => 'devicon-javascript-plain colored',
-                        'typescript' => 'devicon-typescript-plain colored',
-                        'ts'         => 'devicon-typescript-plain colored',
-                        'vue'        => 'devicon-vuejs-plain colored',
-                        'vuejs'      => 'devicon-vuejs-plain colored',
-                        'react'      => 'devicon-react-original colored',
-                        'reactjs'    => 'devicon-react-original colored',
-                        'mysql'      => 'devicon-mysql-plain colored',
-                        'mariadb'    => 'devicon-mariadb-plain colored',
-                        'postgresql' => 'devicon-postgresql-plain colored',
-                        'postgres'   => 'devicon-postgresql-plain colored',
-                        'docker'     => 'devicon-docker-plain colored',
-                        'git'        => 'devicon-git-plain colored',
-                        'github'     => 'devicon-github-original',
-                        'tailwind'   => 'devicon-tailwindcss-plain colored',
-                        'tailwindcss'=> 'devicon-tailwindcss-plain colored',
-                        'bootstrap'  => 'devicon-bootstrap-plain colored',
-                        'python'     => 'devicon-python-plain colored',
-                        'nodejs'     => 'devicon-nodejs-plain colored',
-                        'node'       => 'devicon-nodejs-plain colored',
-                        'linux'      => 'devicon-linux-plain',
-                        'ubuntu'     => 'devicon-ubuntu-plain colored',
-                        'nginx'      => 'devicon-nginx-original colored',
-                        'redis'      => 'devicon-redis-plain colored',
-                        'filament'   => 'devicon-php-plain colored',
-                    ];
-                    $iconClass = $iconMap[$key] ?? null;
-                @endphp
-                <div class="flex flex-col items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500 rounded-xl px-6 py-4 transition cursor-default w-24">
-                    @if($iconClass)
-                        <i class="{{ $iconClass }} text-4xl"></i>
-                    @else
-                        <span class="text-3xl">💻</span>
-                    @endif
-                    <span class="text-xs text-gray-400 text-center uppercase tracking-wide">{{ $skill }}</span>
-                </div>
-            @endforeach
+
+        {{-- Alpine.js: filter skill berdasarkan kategori --}}
+        <div x-data="{
+                activeFilter: 'all',
+                filters: ['all', 'frontend', 'backend', 'devops'],
+                skillCategory: {
+                    'laravel': 'backend', 'php': 'backend', 'mysql': 'backend',
+                    'mariadb': 'backend', 'postgresql': 'backend', 'redis': 'backend',
+                    'filament': 'backend', 'livewire': 'backend', 'nodejs': 'backend',
+                    'python': 'backend', 'node': 'backend',
+                    'html': 'frontend', 'css': 'frontend', 'javascript': 'frontend',
+                    'js': 'frontend', 'typescript': 'frontend', 'ts': 'frontend',
+                    'vue': 'frontend', 'vuejs': 'frontend', 'react': 'frontend',
+                    'reactjs': 'frontend', 'tailwind': 'frontend', 'tailwindcss': 'frontend',
+                    'bootstrap': 'frontend', 'alpinejs': 'frontend', 'alpine': 'frontend',
+                    'docker': 'devops', 'git': 'devops', 'github': 'devops',
+                    'linux': 'devops', 'ubuntu': 'devops', 'nginx': 'devops',
+                },
+                getCategory(skill) {
+                    return this.skillCategory[skill.toLowerCase().replace(/[\s\.#]/g, '')] ?? 'backend'
+                }
+             }">
+
+            {{-- Filter Buttons --}}
+            <div class="flex justify-center gap-2 mb-8">
+                <template x-for="filter in filters" :key="filter">
+                    <button
+                        @click="activeFilter = filter"
+                        :class="activeFilter === filter
+                            ? 'bg-indigo-600 text-white border-indigo-600'
+                            : 'bg-transparent text-gray-400 border-gray-700 hover:border-indigo-500'"
+                        class="px-4 py-1.5 rounded-full border text-sm font-medium capitalize transition-all duration-200"
+                        x-text="filter">
+                    </button>
+                </template>
+            </div>
+
+            {{-- Skill Cards --}}
+            <div class="flex flex-wrap justify-center gap-4">
+                @foreach($profile->skills as $skill)
+                    @php
+                        $key = strtolower(str_replace([' ', '.', '#'], '', $skill));
+                        $iconMap = [
+                            'php'        => 'devicon-php-plain colored',
+                            'laravel'    => 'devicon-laravel-plain colored',
+                            'livewire'   => 'devicon-livewire-original colored',
+                            'html'       => 'devicon-html5-plain colored',
+                            'css'        => 'devicon-css3-plain colored',
+                            'javascript' => 'devicon-javascript-plain colored',
+                            'js'         => 'devicon-javascript-plain colored',
+                            'typescript' => 'devicon-typescript-plain colored',
+                            'ts'         => 'devicon-typescript-plain colored',
+                            'vue'        => 'devicon-vuejs-plain colored',
+                            'vuejs'      => 'devicon-vuejs-plain colored',
+                            'react'      => 'devicon-react-original colored',
+                            'reactjs'    => 'devicon-react-original colored',
+                            'mysql'      => 'devicon-mysql-plain colored',
+                            'mariadb'    => 'devicon-mariadb-plain colored',
+                            'postgresql' => 'devicon-postgresql-plain colored',
+                            'postgres'   => 'devicon-postgresql-plain colored',
+                            'docker'     => 'devicon-docker-plain colored',
+                            'git'        => 'devicon-git-plain colored',
+                            'github'     => 'devicon-github-original',
+                            'tailwind'   => 'devicon-tailwindcss-plain colored',
+                            'tailwindcss'=> 'devicon-tailwindcss-plain colored',
+                            'bootstrap'  => 'devicon-bootstrap-plain colored',
+                            'python'     => 'devicon-python-plain colored',
+                            'nodejs'     => 'devicon-nodejs-plain colored',
+                            'node'       => 'devicon-nodejs-plain colored',
+                            'linux'      => 'devicon-linux-plain',
+                            'ubuntu'     => 'devicon-ubuntu-plain colored',
+                            'nginx'      => 'devicon-nginx-original colored',
+                            'redis'      => 'devicon-redis-plain colored',
+                            'filament'   => 'devicon-php-plain colored',
+                        ];
+                        $iconClass = $iconMap[$key] ?? null;
+                    @endphp
+                    <div
+                        x-show="activeFilter === 'all' || getCategory('{{ $key }}') === activeFilter"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 scale-90"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-90"
+                        class="flex flex-col items-center gap-2 bg-gray-900 border border-gray-800 hover:border-indigo-500 rounded-xl px-6 py-4 transition cursor-default w-24">
+                        @if($iconClass)
+                            <i class="{{ $iconClass }} text-4xl"></i>
+                        @else
+                            <span class="text-3xl">💻</span>
+                        @endif
+                        <span class="text-xs text-gray-400 text-center uppercase tracking-wide">{{ $skill }}</span>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </section>
     @endif

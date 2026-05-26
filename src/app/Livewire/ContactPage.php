@@ -3,34 +3,38 @@
 namespace App\Livewire;
 
 use App\Models\Contact;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class ContactPage extends Component
 {
+    #[Rule('required|min:3', message: 'Nama minimal 3 karakter.')]
     public string $name = '';
+
+    #[Rule('required|email', message: 'Format email tidak valid.')]
     public string $email = '';
+
+    #[Rule('required', message: 'Subject tidak boleh kosong.')]
     public string $subject = '';
+
+    #[Rule('required|min:10', message: 'Pesan minimal 10 karakter.')]
     public string $message = '';
 
-    protected $rules = [
-        'name' => 'required|min:3',
-        'email' => 'required|email',
-        'subject' => 'required',
-        'message' => 'required|min:10',
-    ];
+    public bool $submitted = false;
 
-    public function submit()
+    public function submit(): void
     {
         $this->validate();
 
         Contact::create([
-            'name' => $this->name,
-            'email' => $this->email,
+            'name'    => $this->name,
+            'email'   => $this->email,
             'subject' => $this->subject,
             'message' => $this->message,
         ]);
 
-        $this->reset();
+        $this->reset(['name', 'email', 'subject', 'message']);
+        $this->submitted = true;
         session()->flash('success', 'Pesan berhasil dikirim!');
     }
 
