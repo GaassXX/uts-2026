@@ -390,9 +390,98 @@ docker-compose exec php php artisan tinker
 ## 📞 Kontak & Support
 
 Untuk pertanyaan atau bantuan:
-- **Email**: rizqibagas@example.com
-- **GitHub**: https://github.com/rizqibagas
-- **LinkedIn**: https://linkedin.com/in/rizqibagas
+- **Email**: rizqibagaswicaksonoo@gmail.com
+- **GitHub**: https://github.com/GaassXX
+
+
+---
+
+## 🤝 Cara Berkontribusi
+
+Kontribusi sangat diterima! Berikut adalah langkah-langkah untuk berkontribusi ke project ini:
+
+### 1. **Fork Repository**
+- Kunjungi repository di GitHub
+- Klik tombol "Fork" di bagian kanan atas
+- Ini akan membuat copy dari repository ke akun GitHub Anda
+
+### 2. **Clone Repository Anda**
+```bash
+git clone https://github.com/GaassXX/uts-2026.git
+cd uts
+```
+
+### 3. **Buat Branch Feature**
+```bash
+git checkout -b feature/nama-fitur
+# atau untuk bug fixes
+git checkout -b bugfix/nama-bug
+```
+
+### 4. **Buat Perubahan**
+- Edit file yang diperlukan
+- Pastikan code mengikuti konvensi project
+- Test perubahan Anda secara lokal
+
+### 5. **Commit Perubahan**
+```bash
+git add .
+git commit -m "Add: deskripsi perubahan yang jelas"
+# atau untuk bug fixes:
+git commit -m "Fix: deskripsi perubahan yang jelas"
+```
+
+### 6. **Push ke Repository Anda**
+```bash
+git push origin feature/nama-fitur
+```
+
+### 7. **Buat Pull Request**
+- Buka repository asli di GitHub
+- Klik "Pull Requests" → "New Pull Request"
+- Pilih branch Anda dan deskripsi perubahan
+- Submit pull request
+
+### Guideline Kontribusi
+
+#### Coding Style
+- Gunakan **Laravel & PHP standards**
+- Ikuti **PSR-12** untuk PHP code
+- Gunakan **2 spaces** untuk indentation
+- Gunakan **meaningful variable names**
+
+#### Commit Messages
+```
+Add: Menambah fitur baru
+Fix: Memperbaiki bug
+Refactor: Mengubah struktur code tanpa fitur baru
+Docs: Mengubah dokumentasi
+Style: Mengubah formatting/style
+Test: Menambah atau mengubah tests
+```
+
+#### Testing
+- Pastikan semua tests berjalan: `docker-compose exec php php artisan test`
+- Tambahkan tests untuk fitur baru
+- Jangan break existing tests
+
+#### Dokumentasi
+- Update README.md jika ada fitur baru
+- Tambahkan inline comments untuk code yang kompleks
+- Update changelog jika diperlukan
+
+#### Areas untuk Berkontribusi
+- 🐛 Bug fixes
+- ✨ Fitur baru
+- 📝 Dokumentasi improvement
+- 🎨 UI/UX improvements
+- ⚡ Performance optimization
+- 🧪 Test coverage
+
+### Code of Conduct
+- Respectful dan inclusive
+- Fokus pada issue/feature, bukan pada orang
+- Tidak boleh spam atau harassment
 
 ---
 
