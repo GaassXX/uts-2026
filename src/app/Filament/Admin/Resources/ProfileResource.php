@@ -4,16 +4,16 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProfileResource\Pages;
 use App\Models\Profile;
-use Filament\Forms\Form;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class ProfileResource extends Resource
 {
@@ -73,18 +73,18 @@ class ProfileResource extends Resource
             TextColumn::make('tagline'),
             TextColumn::make('created_at')->dateTime()->sortable(),
         ])
-        ->actions([
-            EditAction::make(),
-            DeleteAction::make(),
-        ]);
+            ->actions([
+                EditAction::make(),
+                DeleteAction::make(),
+            ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListProfiles::route('/'),
+            'index' => Pages\ListProfiles::route('/'),
             'create' => Pages\CreateProfile::route('/create'),
-            'edit'   => Pages\EditProfile::route('/{record}/edit'),
+            'edit' => Pages\EditProfile::route('/{record}/edit'),
         ];
     }
 }

@@ -10,6 +10,7 @@ class ProjectPage extends Component
     public function render()
     {
         $projects = Project::latest()->get();
+
         return view('livewire.project-page', compact('projects'))
             ->layout('layouts.app');
     }

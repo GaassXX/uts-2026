@@ -4,7 +4,6 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProjectResource\Pages;
 use App\Models\Project;
-use Filament\Forms\Form;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -12,13 +11,14 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
 class ProjectResource extends Resource
@@ -39,8 +39,7 @@ class ProjectResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->live(onBlur: true)
-                        ->afterStateUpdated(fn ($state, callable $set) =>
-                            $set('slug', Str::slug($state))
+                        ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))
                         ),
                     TextInput::make('slug')
                         ->required()
@@ -132,9 +131,9 @@ class ProjectResource extends Resource
                 ->schema([
                     Select::make('status')
                         ->options([
-                            'planning'    => 'Planning',
+                            'planning' => 'Planning',
                             'in_progress' => 'In Progress',
-                            'completed'   => 'Completed',
+                            'completed' => 'Completed',
                         ])
                         ->required(),
                     TextInput::make('progress')
@@ -161,26 +160,26 @@ class ProjectResource extends Resource
             TextColumn::make('status')
                 ->badge()
                 ->color(fn (string $state): string => match ($state) {
-                    'planning'    => 'warning',
+                    'planning' => 'warning',
                     'in_progress' => 'info',
-                    'completed'   => 'success',
+                    'completed' => 'success',
                 }),
             TextColumn::make('progress')->suffix('%'),
             IconColumn::make('is_final_project')->boolean(),
             TextColumn::make('created_at')->dateTime()->sortable(),
         ])
-        ->actions([
-            EditAction::make(),
-            DeleteAction::make(),
-        ]);
+            ->actions([
+                EditAction::make(),
+                DeleteAction::make(),
+            ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListProjects::route('/'),
+            'index' => Pages\ListProjects::route('/'),
             'create' => Pages\CreateProject::route('/create'),
-            'edit'   => Pages\EditProject::route('/{record}/edit'),
+            'edit' => Pages\EditProject::route('/{record}/edit'),
         ];
     }
 }

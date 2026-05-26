@@ -1,11 +1,11 @@
 <?php
 
+use App\Livewire\ContactPage;
+use App\Livewire\HomePage;
+use App\Livewire\ProjectDetail;
+use App\Livewire\ProjectPage;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
-use App\Livewire\HomePage;
-use App\Livewire\ContactPage;
-use App\Livewire\ProjectPage;
-use App\Livewire\ProjectDetail;
 
 Livewire::setUpdateRoute(function ($handle) {
     return Route::post(config('app.asset_prefix') . '/livewire/update', $handle);

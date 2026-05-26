@@ -24,7 +24,7 @@ return new class extends Migration
         Schema::table('projects', function (Blueprint $table) {
             $table->dropColumn([
                 'slug', 'thumbnail', 'solution',
-                'features', 'flowchart', 'erd_diagram', 'use_case'
+                'features', 'flowchart', 'erd_diagram', 'use_case',
             ]);
         });
     }

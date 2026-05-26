@@ -9,7 +9,8 @@ class HomePage extends Component
 {
     public function render()
     {
-        $profile = Profile::first();
+        $profile = Profile::first() ?? new Profile;
+
         return view('livewire.home-page', compact('profile'))
             ->layout('layouts.app');
     }

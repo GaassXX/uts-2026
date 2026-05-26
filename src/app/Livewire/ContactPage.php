@@ -7,14 +7,14 @@ use Livewire\Component;
 
 class ContactPage extends Component
 {
-    public string $name    = '';
-    public string $email   = '';
+    public string $name = '';
+    public string $email = '';
     public string $subject = '';
     public string $message = '';
 
     protected $rules = [
-        'name'    => 'required|min:3',
-        'email'   => 'required|email',
+        'name' => 'required|min:3',
+        'email' => 'required|email',
         'subject' => 'required',
         'message' => 'required|min:10',
     ];
@@ -24,8 +24,8 @@ class ContactPage extends Component
         $this->validate();
 
         Contact::create([
-            'name'    => $this->name,
-            'email'   => $this->email,
+            'name' => $this->name,
+            'email' => $this->email,
             'subject' => $this->subject,
             'message' => $this->message,
         ]);

@@ -29,8 +29,8 @@ class Project extends Model
     ];
 
     protected $casts = [
-        'tech_stack'       => 'array',
-        'features'         => 'array',
+        'tech_stack' => 'array',
+        'features' => 'array',
         'is_final_project' => 'boolean',
     ];
 

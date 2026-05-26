@@ -11,7 +11,7 @@ class Contact extends Model
         'email',
         'subject',
         'message',
-        'is_read'
+        'is_read',
     ];
 
     protected $casts = [
