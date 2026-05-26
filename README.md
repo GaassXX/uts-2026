@@ -71,7 +71,7 @@ Website portfolio personal ini dibuat sebagai tugas UTS mata kuliah Pemrograman 
 | 📧 Email | rizqibagaswicaksonoo@gmail.com |
 | 📱 Telepon | - |
 | 🛠️ GitHub | [@GaassXX](https://github.com/GaassXX) |
-| 💼 LinkedIn | [Rizqi Bagas Wicaksono](https://linkedin.com/in/rizqibagas) |
+
 
 ---
 
