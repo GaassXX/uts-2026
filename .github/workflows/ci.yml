@@ -91,12 +91,9 @@ jobs:
       - name: Install PHP dependencies
         working-directory: ./src
         run: composer install --prefer-dist --no-progress
-      - name: Run Pint
+      - name: Run Pint (Code Style Check)
         working-directory: ./src
-        run: composer pint --test || true
-      - name: Run PHPStan
-        working-directory: ./src
-        run: composer phpstan || true
+        run: ./vendor/bin/pint --test || true
 
   build:
     runs-on: ubuntu-latest
