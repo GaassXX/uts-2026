@@ -14,7 +14,11 @@ class Profile extends Model
         'email',
         'github',
         'linkedin',
+        'whatsapp',
+        'location',
+        'instagram',
         'skills',
+        'skill_percentages',
         'years_experience',
         'total_projects',
         'availability',
@@ -22,5 +26,6 @@ class Profile extends Model
 
     protected $casts = [
         'skills' => 'array',
+        'skill_percentages' => 'array',
     ];
 }

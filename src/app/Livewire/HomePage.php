@@ -3,21 +3,19 @@
 namespace App\Livewire;
 
 use App\Models\Profile;
-use Livewire\Attributes\Computed;
+use App\Models\Project;
+use App\Models\Experience;
 use Livewire\Component;
 
 class HomePage extends Component
 {
-    #[Computed]
-    public function profile(): Profile
-    {
-        return Profile::first() ?? new Profile;
-    }
-
     public function render()
     {
-        return view('livewire.home-page', [
-            'profile' => $this->profile,
-        ])->layout('layouts.app');
+        $profile     = Profile::first();
+        $projects    = Project::latest()->take(3)->get();
+        $experiences = Experience::orderBy('order')->get();
+
+        return view('livewire.home-page', compact('profile', 'projects', 'experiences'))
+            ->layout('layouts.app');
     }
 }
