@@ -34,8 +34,6 @@ Website portfolio personal ini dibuat sebagai tugas UTS mata kuliah Pemrograman 
 ### 📬 Contact Page
 ![Contact Page](Docs/contact.png)
 
-### 🔧 Admin Panel
-![Admin Panel](Docs/project-detail.png)
 
 **🔗 Live Demo:** Jalankan secara lokal menggunakan panduan instalasi di bawah.
 
