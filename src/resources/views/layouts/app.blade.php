@@ -28,6 +28,10 @@
                    class="px-4 py-2 rounded-lg transition {{ request()->routeIs('home') ? 'bg-indigo-600/20 text-indigo-400' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
                     Home
                 </a>
+                <a href="{{ route('about') }}"
+                   class="px-4 py-2 rounded-lg transition {{ request()->routeIs('about') ? 'bg-indigo-600/20 text-indigo-400' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                    Tentang Saya
+                </a>
                 <a href="{{ route('projects') }}"
                    class="px-4 py-2 rounded-lg transition {{ request()->routeIs('projects*') ? 'bg-indigo-600/20 text-indigo-400' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
                     Projects

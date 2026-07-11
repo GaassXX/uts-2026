@@ -19,6 +19,8 @@ class ExperienceResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
     protected static ?string $navigationGroup = 'Portofolio';
     protected static ?string $navigationLabel = 'Experience';
+    protected static ?string $modelLabel = 'Pengalaman';
+
 
     public static function form(Form $form): Form
     {

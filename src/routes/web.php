@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\AboutPage;
 use App\Livewire\ContactPage;
 use App\Livewire\HomePage;
 use App\Livewire\ProjectDetail;
@@ -16,6 +17,7 @@ Livewire::setScriptRoute(function ($handle) {
 });
 
 Route::get('/', HomePage::class)->name('home');
+Route::get('/about', AboutPage::class)->name('about');
 Route::get('/contact', ContactPage::class)->name('contact');
 Route::get('/projects', ProjectPage::class)->name('projects');
 Route::get('/projects/{project:slug}', ProjectDetail::class)->name('projects.detail');

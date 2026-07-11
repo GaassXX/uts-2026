@@ -27,6 +27,8 @@ class ProjectResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-folder';
     protected static ?string $navigationGroup = 'Portofolio';
     protected static ?string $navigationLabel = 'Project';
+    protected static ?string $modelLabel = 'Project';
+
 
     public static function form(Form $form): Form
     {

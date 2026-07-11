@@ -22,6 +22,8 @@ class Profile extends Model
         'years_experience',
         'total_projects',
         'availability',
+        'about_detail',
+        'cv_url',
     ];
 
     protected $casts = [
