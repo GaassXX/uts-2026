@@ -5,7 +5,7 @@
         <div class="text-center mb-16">
             <div class="inline-flex items-center gap-2 bg-indigo-600/10 border border-indigo-500/20 text-indigo-300 text-sm px-4 py-1.5 rounded-full mb-4">
                 <span class="w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></span>
-                Tentang Saya
+                 Profile
             </div>
             <h1 class="text-5xl font-bold mb-3">Tentang <span class="text-indigo-400">Saya</span></h1>
             <p class="text-gray-400 text-lg max-w-xl mx-auto">{{ $profile?->tagline ?? 'Web Developer' }}</p>
